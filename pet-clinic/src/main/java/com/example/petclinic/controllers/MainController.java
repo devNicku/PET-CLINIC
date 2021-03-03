@@ -18,9 +18,23 @@ import com.example.petclinic.models.User;
 import com.example.petclinic.services.UserService;
 import com.example.petclinic.validator.UserValidator;
 
+import com.example.petclinic.components.EmailServiceComponent;
+
 @Controller
 public class MainController {
 	@Autowired
+	private EmailServiceComponent sendEmail;
+	
+	@GetMapping("/")
+	public String index() {
+//		sendEmail.sendSimpleMessage("stsnicky@gmail.com", "hello from pet clinic", "Appointment");
+		return "home.jsp";
+	}
+	@GetMapping("/appointment")
+	public String appoint() {
+		return "appointment.jsp";
+	}
+
 	UserService userService;
 	 
 	@Autowired
@@ -86,4 +100,5 @@ public class MainController {
 	        model.addAttribute("currentUser", userService.findByUsername(username));
 	        return "adminPage.jsp";
 	    }	
+
 }
