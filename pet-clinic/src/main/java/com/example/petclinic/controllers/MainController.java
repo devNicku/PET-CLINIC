@@ -105,6 +105,8 @@ public class MainController {
 	    public String adminPage(Principal principal, Model model) {
 	        String username = principal.getName();
 	        model.addAttribute("currentUser", userService.findByUsername(username));
+	        List<Appointment> appointments = appointmentService.allAppointments();
+	        model.addAttribute("appointments", appointments);
 	        return "adminPage.jsp";
 	    }
 	 
