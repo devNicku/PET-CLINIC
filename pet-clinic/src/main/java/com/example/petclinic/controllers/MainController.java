@@ -64,7 +64,7 @@ public class MainController {
 	@GetMapping("/")
 	public String index() {
 //		sendEmail.sendSimpleMessage("stsnicky@gmail.com", "hello from pet clinic", "Appointment");
-		return "home.jsp";
+		return "redirect:/home";
 	}
 	@GetMapping("/appointment")
 	public String appoint() {
@@ -123,6 +123,8 @@ public class MainController {
 	    public String adminPage(Principal principal, Model model) {
 	        String username = principal.getName();
 	        model.addAttribute("currentUser", userService.findByUsername(username));
+	        List<Appointment> appointments = appointmentService.allAppointments();
+	        model.addAttribute("appointments", appointments);
 	        return "adminPage.jsp";
 	    }
 	 

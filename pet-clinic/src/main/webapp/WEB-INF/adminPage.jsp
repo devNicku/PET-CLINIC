@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt"
+          prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,28 +51,36 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
           <tr>
             <th>Date</th>
             <th>Time</th>
-            <th>Event</th>
+            <th>Service</th>
+            <th>Assigned</th>
           </tr>
         </thead>
         <tbody>
           <!-- Single event in a single day -->
           <tr>
+           <c:forEach items="${appointments}" var="appointment">
             <td class="agenda-date" class="active" rowspan="1">
-              <div class="dayofmonth">26</div>
-              <div class="dayofweek">Saturday</div>
-              <div class="shortdate text-muted">July, 2014</div>
+            <c:set var="today" value="${appointment.dateTime}" />
+              <div class="dayofmonth"><fmt:formatDate type="both"  value="${today}"  pattern="d"/></div>
+              <div class="dayofweek"> <fmt:formatDate type="both"  value="${today}"  pattern="EEEE"/></div>
+              <div class="shortdate text-muted"><fmt:formatDate type="both"  value="${today}"  pattern="MMMM,yyyy"/></div>
             </td>
             <td class="agenda-time">
-              5:30 AM
+             <c:set var="time" value="${appointment.time}" />
+             <fmt:formatDate type="both"  value="${time}"  pattern="hh:mm a"/>
             </td>
             <td class="agenda-events">
               <div class="agenda-event">
-                <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
-                Fishing
+               ${appointment.service} pet  ${appointment.pet.name}
+              </div>
+            </td>
+            <td class="agenda-events">
+              <div class="agenda-event">
+               ${appointment.assigned.nombre}
               </div>
             </td>
           </tr>
-
+   		 </c:forEach>
           <!-- Multiple events in a single day (note the rowspan) -->
           <tr>
             <td class="agenda-date" class="active" rowspan="3">

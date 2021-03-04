@@ -17,10 +17,12 @@
    window.onload = HideDiv;
    function showOrHideDiv() {
     document.getElementById("showOrHidevet").style.display='block';
+    document.getElementById("groom").removeAttribute("name");
    }
    function showOrHideDivGrom() {
   
      document.getElementById("showOrHidegroom").style.display='block';
+     document.getElementById("vet").removeAttribute("name");
    }
 </script>
 
@@ -46,14 +48,14 @@
         <p>
             <form:label path="assigned">Select a person for Service:</form:label>
             <div id="showOrHidevet">
-	    	  	<form:select path="assigned">
+	    	  	<form:select id="vet" path="assigned">
 	        		<c:forEach items="${veterinarians}" var="vet">
 	        			<option value="${vet.id}">${vet.nombre}</option>
 	        	   </c:forEach>
 	        	</form:select>
     		</div>
     		<div id="showOrHidegroom">
-          		<form:select path="assigned">
+          		<form:select id="groom" path="assigned">
         			<c:forEach items="${groomers}" var="groom">
         				<option value="${groom.id}">${groom.nombre}</option>
         	   		</c:forEach>

@@ -21,10 +21,10 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 	</div>
 	<header id="header" class="fixed-top">
 		<div class="container d-flex align-items-center">
-			<h1 class="logo mr-auto"><a href="/">Pet Clinic</a></h1>
+			<h1 class="logo mr-auto"><a href="/home">Pet Clinic</a></h1>
 			<nav class="nav-menu d-none d-lg-block">
 				<ul>
-					<li class="active"><a href="/">Home</a></li>
+					<li class="active"><a href="/home">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#services">Services</a></li>
 					<li><a href="#departments">Departments</a></li>
