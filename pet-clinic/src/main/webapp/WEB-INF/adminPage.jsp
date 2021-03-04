@@ -51,7 +51,8 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
           <tr>
             <th>Date</th>
             <th>Time</th>
-            <th>Event</th>
+            <th>Service</th>
+            <th>Assigned</th>
           </tr>
         </thead>
         <tbody>
@@ -65,12 +66,17 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
               <div class="shortdate text-muted"><fmt:formatDate type="both"  value="${today}"  pattern="MMMM,yyyy"/></div>
             </td>
             <td class="agenda-time">
-              5:30 AM
+             <c:set var="time" value="${appointment.time}" />
+             <fmt:formatDate type="both"  value="${time}"  pattern="hh:mm a"/>
             </td>
             <td class="agenda-events">
               <div class="agenda-event">
-                <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
-                Fishing
+               ${appointment.service} pet  ${appointment.pet.name}
+              </div>
+            </td>
+            <td class="agenda-events">
+              <div class="agenda-event">
+               ${appointment.assigned.nombre}
               </div>
             </td>
           </tr>

@@ -64,7 +64,7 @@ public class MainController {
 	@GetMapping("/")
 	public String index() {
 //		sendEmail.sendSimpleMessage("stsnicky@gmail.com", "hello from pet clinic", "Appointment");
-		return "home.jsp";
+		return "redirect:/home";
 	}
 	@GetMapping("/appointment")
 	public String appoint() {

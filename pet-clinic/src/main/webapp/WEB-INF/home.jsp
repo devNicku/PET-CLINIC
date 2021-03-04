@@ -21,61 +21,43 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 	</div>
 	<header id="header" class="fixed-top">
 		<div class="container d-flex align-items-center">
-			<h1 class="logo mr-auto"><a href="/">Pet Clinic</a></h1>
+			<h1 class="logo mr-auto"><a href="/home">Pet Clinic</a></h1>
 			<nav class="nav-menu d-none d-lg-block">
 				<ul>
-					<li class="active"><a href="/">Home</a></li>
+					<li class="active"><a href="/home">Home</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="#services">Services</a></li>
-					<li><a href="#departments">Departments</a></li>
 					<li><a href="#contact">Contact</a></li>
-					
+					<li class="drop-down"><a >Services</a>
+						<ul>
+							<li class="drop-down"><a href="#">Veterinary</a>
+								<ul>
+									<li><a href="#">Vaccine</a></li>
+					                <li><a href="#">Dental Check</a></li>
+					                <li><a href="#">Surgery</a></li>
+                				</ul>
+              				</li>
+               				<li class="drop-down"><a href="#">Grooming</a>
+				                <ul>
+				                  <li><a href="#">Cats</a></li>
+				                  <li><a href="#">Dogs</a></li>
+				                </ul>
+              				</li>
+            			</ul>
+          			</li>
 					<li><a href="/login">SignUp/Login</a></li>
-
-      <h1 class="logo mr-auto"><a href="index.html">Pet Clinic</a></h1>
-       <nav class="nav-menu d-none d-lg-block">
-        <ul>
-          <li class="active"><a href="index.html">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#doctors">Doctors</a></li>
-          <li class="drop-down"><a >Services</a>
-            <ul>
-       
-              <li class="drop-down"><a href="#">Veterinary</a>
-                <ul>
-                  <li><a href="#">Vaccine</a></li>
-                  <li><a href="#">Dental Check</a></li>
-                  <li><a href="#">Surgery</a></li>
-                </ul>
-              </li>
-               <li class="drop-down"><a href="#">Grooming</a>
-                <ul>
-                  <li><a href="#">Cats</a></li>
-                  <li><a href="#">Dogs</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li><a href="#contact">Contact</a></li>
-               <c:if test="${errorMessage != null}">
-        		<c:out value="${errorMessage}"></c:out>
-   				 </c:if>
-              <security:authorize access="isAuthenticated()">
-        		<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
-        		<li>
-            <form id="logoutForm"  method="POST" action="/logout">
-        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        		<input type="submit" class="btn btn-link" value="Logout!" />
-    		</form>
-         
-         </li> 
-    		</security:authorize> 
-        </ul>
-            
-      </nav>
+					<security:authorize access="isAuthenticated()">
+	        			<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
+	        			<li>
+				            <form id="logoutForm"  method="POST" action="/logout">
+				        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				        		<input type="submit" class="btn btn-link" value="Logout!" />
+				    		</form>
+	         
+	         			</li> 
+    				</security:authorize> 
+    			</nav>
 
       <a href="#appointment" class="appointment-btn scrollto">Make an Appointment</a>
-      
     </div>
   </header>
   <section id="hero" class="d-flex align-items-center">
