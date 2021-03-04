@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,33 +27,45 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
         <ul>
           <li class="active"><a href="index.html">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#departments">Departments</a></li>
           <li><a href="#doctors">Doctors</a></li>
-          <li class="drop-down"><a href="">Drop Down</a>
+          <li class="drop-down"><a >Services</a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="drop-down"><a href="#">Deep Drop Down</a>
+       
+              <li class="drop-down"><a href="#">Veterinary</a>
                 <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
+                  <li><a href="#">Vaccine</a></li>
+                  <li><a href="#">Dental Check</a></li>
+                  <li><a href="#">Surgery</a></li>
                 </ul>
               </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+               <li class="drop-down"><a href="#">Grooming</a>
+                <ul>
+                  <li><a href="#">Cats</a></li>
+                  <li><a href="#">Dogs</a></li>
+                </ul>
+              </li>
             </ul>
           </li>
           <li><a href="#contact">Contact</a></li>
-
+               <c:if test="${errorMessage != null}">
+        		<c:out value="${errorMessage}"></c:out>
+   				 </c:if>
+              <security:authorize access="isAuthenticated()">
+        		<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
+        		<li>
+            <form id="logoutForm"  method="POST" action="/logout">
+        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        		<input type="submit" class="btn btn-link" value="Logout!" />
+    		</form>
+         
+         </li> 
+    		</security:authorize> 
         </ul>
+            
       </nav>
 
       <a href="#appointment" class="appointment-btn scrollto">Make an Appointment</a>
-
+      
     </div>
   </header>
   <section id="hero" class="d-flex align-items-center">

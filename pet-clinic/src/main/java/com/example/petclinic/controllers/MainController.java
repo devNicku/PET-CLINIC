@@ -1,6 +1,7 @@
 package com.example.petclinic.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,7 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.petclinic.models.Appointment;
+import com.example.petclinic.models.Pet;
+import com.example.petclinic.models.Specie;
 import com.example.petclinic.models.User;
+import com.example.petclinic.services.AppointmentService;
+import com.example.petclinic.services.PetService;
+import com.example.petclinic.services.SpecieService;
 import com.example.petclinic.services.UserService;
 import com.example.petclinic.validator.UserValidator;
 
@@ -25,6 +32,15 @@ public class MainController {
 	 
 	@Autowired
 	 private UserValidator userValidator;
+	
+	@Autowired
+	private SpecieService specieService;
+	
+	@Autowired
+	private PetService petService;
+	
+	@Autowired
+	private AppointmentService  appointmentService;
 	 
 	 public MainController(UserService userService, UserValidator userValidator) {
 	        this.userService = userService;
@@ -72,18 +88,72 @@ public class MainController {
 		  userService.saveUserWithAdminRole(user, number);
 	        return "redirect:/login";
 	 }
-	 
+		 
 	 @RequestMapping(value = {"/", "/home"})
 	    public String home(Principal principal, Model model) {
-	        String username = principal.getName();
-	        model.addAttribute("currentUser", userService.findByUsername(username));
-	        return "index.jsp";
+		    String username; 
+		    if(principal == null) {
+		    	username = "Guest";
+		    	model.addAttribute("currentUser", username);
+		    }else {
+		    	username = principal.getName();
+		    	model.addAttribute("currentUser", userService.findByUsername(username));
+		    }
+	        return "home.jsp";
 	    }
-	 
 	 @RequestMapping("/admin")
 	    public String adminPage(Principal principal, Model model) {
 	        String username = principal.getName();
 	        model.addAttribute("currentUser", userService.findByUsername(username));
 	        return "adminPage.jsp";
-	    }	
+	    }
+	 
+	 @RequestMapping("/add/pet")
+	 	public String addPetPage(@Valid @ModelAttribute("petModel") Pet pet, Principal principal, Model model) {
+		 String username = principal.getName();
+	     model.addAttribute("currentUser", userService.findByUsername(username));
+	     List<Specie> allspecies = specieService.allSpecies();
+	     model.addAttribute("species", allspecies ); 
+		 return "addPet.jsp"; 
+	 }
+	 @PostMapping("/add/pet")
+	 	public String addPet(@Valid @ModelAttribute("petModel") Pet pet, BindingResult result) {
+		 if(result.hasErrors()) {
+			 return "addPet.jsp";
+		 }
+		 petService.createPet(pet);
+		 return "redirect:/home";
+	 }
+	 @RequestMapping("/add/appointment") 
+		public String appoitmentPage(Principal principal, Model model,@ModelAttribute("appointment") Appointment appointment) {
+	        String username = principal.getName();
+	        User u = userService.findByUsername(username);
+	        model.addAttribute("currentUser", u);
+	        List<User> veterinarians = userService.findByVet();
+	        model.addAttribute("veterinarians", veterinarians);
+	        List<User> groomers = userService.findByGroom();
+	        model.addAttribute("groomers", groomers);
+	        Long id = u.getId();
+	        List<Pet> allpets = petService.findPetsByOwner(u);
+	        model.addAttribute("pets", allpets);
+	        return "appoitment.jsp";
+	    }
+		
+		@PostMapping("/add/appointment")
+		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result){
+		 System.out.println("enter to appointment");
+		 System.out.println(appointment.getDateTime());
+		 System.out.println(appointment.getTime());
+		 System.out.println(appointment.getOwner().getNombre());
+		 System.out.println(appointment.getAssigned().getNombre());
+		 System.out.println(appointment.getPet().getName());
+		 System.out.println(appointment.getService());
+		
+			if(result.hasErrors()) {
+				 return "appoitment.jsp";
+			 }
+			 appointmentService.createAppointment(appointment);
+			 return "redirect:/home";
+		}
+		 
 }

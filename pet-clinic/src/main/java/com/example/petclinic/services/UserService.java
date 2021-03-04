@@ -1,6 +1,9 @@
 package com.example.petclinic.services;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +45,27 @@ public class UserService {
 	        }
 	    }    
 	    
-
-	    // 3
+	    public List<User> findByVet(){
+	    	return this.userRepository.findByRoles_NameRole("ROLE_VET");
+	    }
+	    
+	    public List<User> findByGroom(){
+	    	return this.userRepository.findByRoles_NameRole("ROLE_GROOMER");
+	    }
+	
+	 
 	    public User findByUsername(String username) {
 	        return userRepository.findByUsername(username);
+	    }
+	    
+	    public User findUserById(Long id) {
+	    	Optional<User> u = userRepository.findById(id);
+	    	if(u.isPresent()) {
+	            return u.get();
+	    	} else {
+	    	    return null;
+	    	}
+	    	
 	    }
 
 }
