@@ -1,5 +1,7 @@
 package com.example.petclinic.models;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +16,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="appointments")
 public class Appointment {
@@ -21,7 +25,11 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	private Date date;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date dateTime;
+	
+	@DateTimeFormat(pattern="HH:mm")
+	private Date time;
 	
 	private String service;
 	
@@ -54,14 +62,6 @@ public class Appointment {
 		this.id = id;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public String getService() {
 		return service;
 	}
@@ -84,6 +84,22 @@ public class Appointment {
 
 	public void setAssigned(User assigned) {
 		this.assigned = assigned;
+	}	
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+
+	public Date getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public Pet getPet() {
