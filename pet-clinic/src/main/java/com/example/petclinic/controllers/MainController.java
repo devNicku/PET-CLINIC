@@ -10,14 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import com.example.petclinic.models.Appointment;
 import com.example.petclinic.models.Pet;
 import com.example.petclinic.models.Specie;
+
+import com.example.petclinic.components.EmailServiceComponent;
+
 import com.example.petclinic.models.User;
 import com.example.petclinic.services.AppointmentService;
 import com.example.petclinic.services.PetService;
@@ -28,9 +33,10 @@ import com.example.petclinic.validator.UserValidator;
 @Controller
 public class MainController {
 	@Autowired
-	UserService userService;
-	 
+	private EmailServiceComponent sendEmail;
+	
 	@Autowired
+
 	 private UserValidator userValidator;
 	
 	@Autowired
@@ -47,11 +53,23 @@ public class MainController {
 	        this.userValidator = userValidator;
 	 }
 	
+	@Autowired
+	private UserService userService;
 	
-	@RequestMapping("/registration")
-    public String registerForm(@Valid @ModelAttribute("user") User user) {
-        return "registrationPage.jsp";
-    }
+//	public MainController(UserService userService, UserValidator userValidator) {
+//		this.userService = userService;
+//		this.userValidator = userValidator;
+//	}
+	
+	@GetMapping("/")
+	public String index() {
+//		sendEmail.sendSimpleMessage("stsnicky@gmail.com", "hello from pet clinic", "Appointment");
+		return "home.jsp";
+	}
+	@GetMapping("/appointment")
+	public String appoint() {
+		return "appointment.jsp";
+	}
 	
 	@RequestMapping("/register")
     public String registerAdminForm(@Valid @ModelAttribute("user") User user) {
@@ -59,16 +77,16 @@ public class MainController {
     }
     
 	@RequestMapping("/login")
-    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
+    public String login(@Valid @ModelAttribute("user") User user, @RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
         if(error != null) {
             model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
         }
         if(logout != null) {
             model.addAttribute("logoutMessage", "Logout Successful!");
         }
-        return "loginPage.jsp";
+        return "loginReg.jsp";
     }
-	
+
 	 @PostMapping("/registration")
 	  public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
 		 userValidator.validate(user, result);
@@ -141,13 +159,7 @@ public class MainController {
 		
 		@PostMapping("/add/appointment")
 		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result){
-		 System.out.println("enter to appointment");
-		 System.out.println(appointment.getDateTime());
-		 System.out.println(appointment.getTime());
-		 System.out.println(appointment.getOwner().getNombre());
-		 System.out.println(appointment.getAssigned().getNombre());
-		 System.out.println(appointment.getPet().getName());
-		 System.out.println(appointment.getService());
+
 		
 			if(result.hasErrors()) {
 				 return "appoitment.jsp";
@@ -156,4 +168,5 @@ public class MainController {
 			 return "redirect:/home";
 		}
 		 
+
 }
