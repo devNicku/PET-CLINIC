@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +12,32 @@
 integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <link href="assets/img/favicon.png" rel="icon">
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 <title>Appointment</title>
 </head>
 <body>
+<script>
+	function HideDiv() {
+         document.getElementById("showOrHidevet").style.display='none';
+         document.getElementById("showOrHidegroom").style.display='none';
+        }
+   window.onload = HideDiv;
+   function showOrHideDiv() {
+    document.getElementById("showOrHidevet").style.display='block';
+    document.getElementById("groom").removeAttribute("name");
+   }
+   function showOrHideDivGrom() {
+  
+     document.getElementById("showOrHidegroom").style.display='block';
+     document.getElementById("vet").removeAttribute("name");
+   }
+</script>
 	
 	<div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
 	</div>
+	
+	
+    
 	<header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
@@ -42,59 +63,75 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
           <h2>Make an Appointment</h2>
           <p>If this is an urgent issue, please call us at XXX-xxx-0000.</p>
         </div>
-
-        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+        <div>
+			<p><form:errors path="user.*"/></p>
+	    	<H1> Choose a Service </H1>
+	    	<button  onclick="showOrHideDiv();">Veterinarian</button>
+	    	<button onclick="showOrHideDivGrom();">Grooming</button>
+        </div><br>
+        <form:form action="/add/appointment" method="post" modelAttribute="appointment" class="php-email-form">
           <div class="form-row">
             <div class="col-md-4 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
+            	<form:label class="form-label" path="dateTime">Date</form:label>
+            	<form:input class="form-control" type="date" path="dateTime"/>
+				<div class="validate"></div>
             </div>
             <div class="col-md-4 form-group">
-              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
+            	<form:label class="form-label" path="time">Time for appointment</form:label>
+            	<div>
+	            	<form:input class="form-control" type = "time"  min="09:00" max="18:00" path="time"/>
+	            	<small>Office hours are 9am to 6pm</small>
+            	</div>
+				<div class="validate"></div>
+            </div><br>
+            <div class="col-md-4 form-group">
+            	<form:label class="form-label" path="assigned">Select a person for Service:</form:label>
+				<div id="showOrHidevet">
+					<form:select class="form-select" id="vet" path="assigned">
+						<option selected disabled>Open this to select</option>
+						<c:forEach items="${veterinarians}" var="vet">
+							<option value="${vet.id}">${vet.nombre}</option>
+						</c:forEach>
+					</form:select>
+				</div>
+				<div id="showOrHidegroom">
+          			<form:select class="form-select" id="groom" path="assigned">
+          				<option selected disabled>Open this to select</option>
+        				<c:forEach items="${groomers}" var="groom">
+        					<option value="${groom.id}">${groom.nombre}</option>
+        	   			</c:forEach>
+        			</form:select>
+       			</div>
+				<div class="validate"></div>
             </div>
             <div class="col-md-4 form-group">
-              <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
+            	<form:label class="form-label" path="pet">Select your pet:</form:label>
+            	<form:select class="form-select" path="pet">
+            		<option selected disabled>Open this to select</option>
+        			<c:forEach items="${pets}" var="pet">
+        				<option value="${pet.id}">${pet.name}</option>
+        	   		</c:forEach>
+        		</form:select>
+				<div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group">
+            	<form:label class="form-label" path="service">Select a service:</form:label>
+            	<form:select class="form-select" path="service">
+            		<option selected disabled>Open this to select</option>
+        			<option value="vaccines">Vaccine</option>
+        			<option value="Dental Care">Dental Care</option>
+        			<option value="Grooming">Grooming</option>
+        			<option value="Surgery">Surgery</option>
+        		</form:select>
+				<div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group">
+              	<form:hidden path="owner" value="${currentUser.id}"/>
+        		<form:hidden path="status" value="true"/>
             </div>
           </div>
-          <div class="form-row">
-            <div class="col-md-4 form-group">
-              <input type="date" placeholder="Appointment Date" name="date" class="form-control datepicker" id="date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <select name="department" id="department" class="form-control">
-                <option value="">Select Department</option>
-                <option value="Department 1">Department 1</option>
-                <option value="Department 2">Department 2</option>
-                <option value="Department 3">Department 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <select name="doctor" id="doctor" class="form-control">
-                <option value="">Select Doctor</option>
-                <option value="Doctor 1">Doctor 1</option>
-                <option value="Doctor 2">Doctor 2</option>
-                <option value="Doctor 3">Doctor 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
-            <div class="validate"></div>
-          </div>
-          <div class="mb-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-          </div>
-          <div class="text-center"><button type="submit">Make an Appointment</button></div>
-        </form>
-
+          <div ><button type="submit">Make an Appointment</button></div>
+        </form:form>
       </div>
     </section>
 
