@@ -156,17 +156,20 @@ public class MainController {
 	        Long id = u.getId();
 	        List<Pet> allpets = petService.findPetsByOwner(u);
 	        model.addAttribute("pets", allpets);
-	        return "appoitment.jsp";
+	        return "appointment.jsp";
 	    }
 		
 		@PostMapping("/add/appointment")
-		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result){
+		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
 
-		
 			if(result.hasErrors()) {
-				 return "appoitment.jsp";
+				 return "appointment.jsp";
 			 }
 			 appointmentService.createAppointment(appointment);
+			 String username = principal.getName();
+			 User u = userService.findByUsername(username);
+			 String email = u.getEmail();
+			 sendEmail.sendSimpleMessage(email, "hello from pet clinic", "Appointment");
 			 return "redirect:/home";
 		}
 		 
