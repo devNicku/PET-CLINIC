@@ -57,7 +57,7 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
     				</security:authorize> 
     			</nav>
 
-      <a href="#appointment" class="appointment-btn scrollto">Make an Appointment</a>
+      <a href="/add/appointment" class="appointment-btn scrollto">Make an Appointment</a>
     </div>
   </header>
   <section id="hero" class="d-flex align-items-center">
@@ -247,5 +247,6 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
     </section><!-- End Contact Section -->
 
     
+
 </body>
 </html>
