@@ -30,7 +30,18 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 					<li><a href="#services">Services</a></li>
 					<li><a href="#departments">Departments</a></li>
 					<li><a href="#contact">Contact</a></li>
-					<li><a href="/login">SignUp/Login</a></li>
+					<li>
+					<security:authorize access="isAuthenticated()">
+	        			<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
+	        			<li>
+				            <form id="logoutForm"  method="POST" action="/logout">
+				        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				        		<input type="submit" class="btn btn-link" value="Logout!" />
+				    		</form>
+	         
+	         			</li> 
+    				</security:authorize>
+    				</li> 
 				</ul>
 			</nav>
 			<a href="/appointment" class="appointment-btn scrollto">Make an
