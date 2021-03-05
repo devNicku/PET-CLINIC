@@ -36,7 +36,6 @@ public class MainController {
 	private EmailServiceComponent sendEmail;
 	
 	@Autowired
-
 	 private UserValidator userValidator;
 	
 	@Autowired
@@ -47,11 +46,6 @@ public class MainController {
 	
 	@Autowired
 	private AppointmentService  appointmentService;
-	 
-	 public MainController(UserService userService, UserValidator userValidator) {
-	        this.userService = userService;
-	        this.userValidator = userValidator;
-	 }
 	
 	@Autowired
 	private UserService userService;
@@ -63,7 +57,6 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String index() {
-//		sendEmail.sendSimpleMessage("stsnicky@gmail.com", "hello from pet clinic", "Appointment");
 		return "redirect:/home";
 	}
 	@GetMapping("/appointment")
@@ -145,33 +138,33 @@ public class MainController {
 		 return "redirect:/home";
 	 }
 	 @RequestMapping("/add/appointment") 
-		public String appoitmentPage(Principal principal, Model model,@ModelAttribute("appointment") Appointment appointment) {
-	        String username = principal.getName();
-	        User u = userService.findByUsername(username);
-	        model.addAttribute("currentUser", u);
-	        List<User> veterinarians = userService.findByVet();
-	        model.addAttribute("veterinarians", veterinarians);
-	        List<User> groomers = userService.findByGroom();
-	        model.addAttribute("groomers", groomers);
-	        Long id = u.getId();
-	        List<Pet> allpets = petService.findPetsByOwner(u);
-	        model.addAttribute("pets", allpets);
-	        return "appointment.jsp";
-	    }
-		
-		@PostMapping("/add/appointment")
-		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
+	 public String appoitmentPage(Principal principal, Model model,@ModelAttribute("appointment") Appointment appointment) {
+		 String username = principal.getName();
+		 User u = userService.findByUsername(username);
+		 model.addAttribute("currentUser", u);
+		 List<User> veterinarians = userService.findByVet();
+		 model.addAttribute("veterinarians", veterinarians);
+		 List<User> groomers = userService.findByGroom();
+		 model.addAttribute("groomers", groomers);
+		 Long id = u.getId();
+		 List<Pet> allpets = petService.findPetsByOwner(u);
+		 model.addAttribute("pets", allpets);
+		 return "appointment.jsp";
+	 }
 
-			if(result.hasErrors()) {
-				 return "appointment.jsp";
-			 }
-			 appointmentService.createAppointment(appointment);
-			 String username = principal.getName();
-			 User u = userService.findByUsername(username);
-			 String email = u.getEmail();
-			 sendEmail.sendSimpleMessage(email, "hello from pet clinic", "Appointment");
-			 return "redirect:/home";
-		}
-		 
+	 @PostMapping("/add/appointment")
+	 public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
+
+		 if(result.hasErrors()) {
+			 return "appointment.jsp";
+		 }
+		 appointmentService.createAppointment(appointment);
+		 String username = principal.getName();
+		 User u = userService.findByUsername(username);
+		 String email = u.getEmail();
+		 sendEmail.sendSimpleMessage(email, "hello from pet clinic", "Appointment");
+		 return "redirect:/home";
+	 }
+
 
 }
