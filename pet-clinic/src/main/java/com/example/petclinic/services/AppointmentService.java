@@ -22,5 +22,30 @@ public class AppointmentService {
 	public List<Appointment> allAppointments(){
 		return this.appointmentRepo.findAll();
 	}
+	
+	public List<Appointment> orderAppointments(){
+		return this.appointmentRepo.findByOrderByDateTimeAsc();
+	}
+	
+	public List<Appointment> appointmentsByid(Long id){
+		return this.appointmentRepo.findByOwnerId(id);
+		
+	}
+	public List<Appointment> pastAppointments(Long id){
+		return this.appointmentRepo.pastApppointments(id);	
+	}
+	
+	public List<Appointment> nextAppointments(Long id){
+		return this.appointmentRepo.nextApppointments(id);
+	}
+	
+	public List<Appointment> todayAppointments(){
+		return this.appointmentRepo.todayApppointments();
+	}
+	
+	public List<Appointment> nextDaysAppointments(){
+		return this.appointmentRepo.nextDaysAppointments();
+	}
+
 
 }

@@ -19,15 +19,15 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 
 </head>
 <body>
-	<div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
+	<div id="topbar" class="d-none d-lg-flex align-items-center ">
 	</div>
-	<header id="header" class="fixed-top">
+	<header id="header" ">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="index.html">Pet Clinic</a></h1>
+      <h1 class="logo mr-auto"><a href="/home">Pet Clinic</a></h1>
        <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="index.html">Home</a></li>
+          <li class="active"><a href="/home">Home</a></li>
           <li><a>Welcome: <c:out value="${currentUser.username}"></c:out> </a></li>
           <li>
          <form id="logoutForm"  method="POST" action="/logout">
@@ -43,9 +43,10 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
     </div>
   </header>
   <section  id="heroagenda" class="d-flex align-items-center" >
-
-   <div class="agenda">
+ 	
+   <div class="container d-flex align-items-center">
     <div class="table-responsive">
+    	<h1>today </h1>
       <table class="table table-condensed table-bordered">
         <thead>
           <tr>
@@ -58,7 +59,7 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
         <tbody>
           <!-- Single event in a single day -->
           <tr>
-           <c:forEach items="${appointments}" var="appointment">
+           <c:forEach items="${tdayAppointments}" var="appointment">
             <td class="agenda-date" class="active" rowspan="1">
             <c:set var="today" value="${appointment.dateTime}" />
               <div class="dayofmonth"><fmt:formatDate type="both"  value="${today}"  pattern="d"/></div>
@@ -81,50 +82,49 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
             </td>
           </tr>
    		 </c:forEach>
-          <!-- Multiple events in a single day (note the rowspan) -->
+	</tbody>
+	</table>
+	<h1>Next days</h1>
+	 <table class="table table-condensed table-bordered">
+        <thead>
           <tr>
-            <td class="agenda-date" class="active" rowspan="3">
-              <div class="dayofmonth">4</div>
-              <div class="dayofweek">Thursday</div>
-              <div class="shortdate text-muted">July, 2014</div>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Service</th>
+            <th>Assigned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Single event in a single day -->
+          <tr>
+           <c:forEach items="${nextAppointments}" var="appointment">
+            <td class="agenda-date" class="active" rowspan="1">
+            <c:set var="today" value="${appointment.dateTime}" />
+              <div class="dayofmonth"><fmt:formatDate type="both"  value="${today}"  pattern="d"/></div>
+              <div class="dayofweek"> <fmt:formatDate type="both"  value="${today}"  pattern="EEEE"/></div>
+              <div class="shortdate text-muted"><fmt:formatDate type="both"  value="${today}"  pattern="MMMM,yyyy"/></div>
             </td>
             <td class="agenda-time">
-              8:00 - 9:00 AM
+             <c:set var="time" value="${appointment.time}" />
+             <fmt:formatDate type="both"  value="${time}"  pattern="hh:mm a"/>
             </td>
             <td class="agenda-events">
               <div class="agenda-event">
-                Doctor's Appointment
+               ${appointment.service} pet  ${appointment.pet.name}
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="agenda-time">
-              10:15 AM - 12:00 PM
             </td>
             <td class="agenda-events">
               <div class="agenda-event">
-                Meeting with executives
+               ${appointment.assigned.nombre}
               </div>
             </td>
           </tr>
-          <tr>
-            <td class="agenda-time">
-              7:00 - 9:00 PM
-            </td>
-            <td class="agenda-events">
-              <div class="agenda-event">
-                Aria's dance recital
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  </section>
-  
-  
-  
+   		 </c:forEach>
+	</tbody>
+	</table>
+	</div>
+	</div>
+	</section>
   
 </body>
 </html>
