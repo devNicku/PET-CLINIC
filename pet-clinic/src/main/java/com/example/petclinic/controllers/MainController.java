@@ -1,6 +1,7 @@
 package com.example.petclinic.controllers;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,13 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.example.petclinic.components.EmailServiceComponent;
 import com.example.petclinic.models.Appointment;
 import com.example.petclinic.models.Pet;
 import com.example.petclinic.models.Specie;
-
-import com.example.petclinic.components.EmailServiceComponent;
-
 import com.example.petclinic.models.User;
 import com.example.petclinic.services.AppointmentService;
 import com.example.petclinic.services.PetService;
@@ -84,7 +82,7 @@ public class MainController {
 	  public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
 		 userValidator.validate(user, result);
 		 if (result.hasErrors()) {
-	            return "registrationPage.jsp";
+	            return "loginReg.jsp";
 	        }
 		  userService.saveWithUserRole(user);
 	        return "redirect:/login";
@@ -163,7 +161,12 @@ public class MainController {
 		 String username = principal.getName();
 		 User u = userService.findByUsername(username);
 		 String email = u.getEmail();
-		 sendEmail.sendSimpleMessage(email, "hello from pet clinic", "Appointment");
+		 Date date = appointment.getDateTime();
+		 Date time = appointment.getTime();
+		 String servicePerson = appointment.getAssigned().getNombre();
+		 String msg = "You have an Appointment with "+servicePerson+" on "+date+" "+time;
+		 
+		 sendEmail.sendSimpleMessage(email, msg, "Appointment");
 		 return "redirect:/home";
 	 }
 

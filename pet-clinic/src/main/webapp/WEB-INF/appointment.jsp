@@ -93,7 +93,7 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
             <div class="col-md-4 form-group">
             	<form:label class="form-label" path="time">Time for appointment</form:label>
             	<div>
-	            	<form:input class="form-control" type = "time"  min="09:00" max="18:00" path="time"/>
+	            	<form:input class="form-control" type = "time"  min="09:00" max="18:00" value="" step="3600" path="time"/>
 	            	<small>Office hours are 9am to 6pm</small>
             	</div>
 				<div class="validate"></div>

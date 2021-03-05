@@ -58,27 +58,36 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 							<div class="col-md-12 form-group">
 								<form:label class="form-label" path="nombre">Name</form:label>
 								<form:input class="form-control" id="name" path="nombre" />
+								
+								<p><form:errors style="color:red" path="nombre" /></p>
 								<div class="validate"></div>
 							</div>
 							<div class="col-md-12 form-group">
 								<form:label class="form-label" path="email">Email</form:label>
 								<form:input class="form-control" id="name" path="email" />
+							
+								<p><form:errors style="color:red" path="email" /></p>
 								<div class="validate"></div>
 							</div>
 							<div class="col-md-12 form-group">
 								<form:label class="form-label" path="phone">Phone</form:label>
 								<form:input class="form-control" id="name" path="phone" />
+						
+								<p><form:errors style="color:red" path="phone" /></p>
 								<div class="validate"></div>
 							</div>
 							<div class="col-md-12 form-group">
 								<form:label class="form-label" path="username">User Name</form:label>
 								<form:input class="form-control" id="name" path="username" />
+					
+								<p><form:errors style="color:red" path="username" /></p>
 								<div class="validate"></div>
 							</div>
 							<div class="col-md-12 form-group">
 								<form:label class="form-label" path="password">Password</form:label>
-								<form:input type="password" class="form-control" id="name"
-									path="password" />
+								<form:input type="password" class="form-control" id="name" path="password" />
+						
+								<p><form:errors style="color:red" path="password" /></p>
 								<div class="validate"></div>
 							</div>
 							<div class="col-md-12 form-group">

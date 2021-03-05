@@ -27,12 +27,12 @@ public class User {
  @Size(min=3)
  private String username;
  
- @Size(min=3)
+ @Size(min=3, max=100)
  private String nombre;
  @Size(min=3)
  private String email;
  
- @Size(min=3)
+ @Size(min=10)
  private String phone;
  @Size(min=5)
  private String password;

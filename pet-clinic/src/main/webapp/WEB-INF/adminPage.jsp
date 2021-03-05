@@ -19,15 +19,15 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 
 </head>
 <body>
-	<div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
+	<div id="topbar" class="d-none d-lg-flex align-items-center ">
 	</div>
 	<header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="index.html">Pet Clinic</a></h1>
+      <h1 class="logo mr-auto"><a href="/">Pet Clinic</a></h1>
        <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="index.html">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
           <li><a>Welcome: <c:out value="${currentUser.username}"></c:out> </a></li>
           <li>
          <form id="logoutForm"  method="POST" action="/logout">
