@@ -160,8 +160,8 @@ public class MainController {
 	    }
 		
 		@PostMapping("/add/appointment")
-		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
 
+		public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
 			if(result.hasErrors()) {
 				 return "appointment.jsp";
 			 }
