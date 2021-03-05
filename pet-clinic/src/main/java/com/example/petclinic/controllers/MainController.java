@@ -138,6 +138,7 @@ public class MainController {
 		 return "redirect:/home";
 	 }
 	 @RequestMapping("/add/appointment") 
+
 	 public String appoitmentPage(Principal principal, Model model,@ModelAttribute("appointment") Appointment appointment) {
 		 String username = principal.getName();
 		 User u = userService.findByUsername(username);
@@ -165,6 +166,5 @@ public class MainController {
 		 sendEmail.sendSimpleMessage(email, "hello from pet clinic", "Appointment");
 		 return "redirect:/home";
 	 }
-
 
 }
