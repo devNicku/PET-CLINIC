@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt"
+          prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,10 +28,10 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 			<nav class="nav-menu d-none d-lg-block">
 				<ul>
 					<li class="active"><a href="/home">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#services">Services</a></li>
-					<li><a href="#departments">Departments</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="/home/#about">About</a></li>
+					<li><a href="/home/#services">Services</a></li>
+					<li><a href="/home/#contact">Contact</a></li>
+					<li><a href="/add/pet/#my-pet">My Pets</a></li>
 					<li>
 					<security:authorize access="isAuthenticated()">
 	        			<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
@@ -44,7 +46,7 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
     				</li> 
 				</ul>
 			</nav>
-			<a href="/appointment" class="appointment-btn scrollto">Make an
+			<a href="/add/appointment" class="appointment-btn scrollto">Make an
 				Appointment</a>
 		</div>
 	</header>
@@ -96,5 +98,90 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 				</div>
 			</div>
 	</section>
+	<section id="my-pet" class="services">
+      <div class="container">
+      	<div class="section-title">
+          <h2>Upcoming</h2>
+          <p>Keep track of your pet Info</p>
+        </div>
+      	<div class="container d-flex align-items-center">
+    		<div class="table-responsive">
+      			<table class="table table-condensed table-bordered">
+        			<thead>
+			          <tr>
+			            <th>Pet Name</th>
+			            <th>Pet Type</th>
+			            <th>Pet Age</th>
+			            <th>Visit Date</th>
+			            <th>Hour</th>
+			            <th>Service</th>
+			            <th>Veterinarian/Groomer</th>
+			            <th></th>
+			          </tr>
+			        </thead>
+        			<tbody>
+			          <!-- Single event in a single day -->
+			          <c:forEach items="${nextAppointments}" var="appointment">
+			          <tr>
+			           <td>${appointment.pet.name} </td>
+			           <td>${appointment.pet.specie.specieName} </td>
+			           <td>${appointment.pet.age} </td>
+			            <c:set var="today" value="${appointment.dateTime}" />
+			            <td><fmt:formatDate type="both"  value="${today}"  pattern="d-MMMM-yyyy"/></td>
+			              <c:set var="time" value="${appointment.time}" />
+			            <td><fmt:formatDate type="both"  value="${time}"  pattern="hh:mm a"/></td>
+			            <td>${appointment.service}</td>        
+			            <td>${appointment.assigned.nombre}</td>
+			            <td><button type="submit">Update Date</button></td>
+			            </c:forEach>
+			          </tr>
+			         </tbody>
+      			</table>
+   			</div>
+ 		</div>
+	</div>
+	</section><!-- End Services Section -->
+	<section id="my-pet" class="services">
+      <div class="container">
+      	<div class="section-title">
+          <h2>My Pet</h2>
+          <p>Past Appointments</p>
+        </div>
+      	<div class="container d-flex align-items-center">
+    		<div class="table-responsive">
+      			<table class="table table-condensed table-bordered">
+        			<thead>
+			          <tr>
+			            <th>Pet Name</th>
+			            <th>Pet Type</th>
+			            <th>Pet Age</th>
+			            <th>Visit Date</th>
+			            <th>Hour</th>
+			            <th>Service</th>
+			            <th>Veterinarian/Groomer</th>
+			         
+			          </tr>
+			        </thead>
+        			<tbody>
+			          <!-- Single event in a single day -->
+			          <c:forEach items="${pastAppointment}" var="appointment">
+			          <tr>
+			           <td>${appointment.pet.name} </td>
+			           <td>${appointment.pet.specie.specieName} </td>
+			           <td>${appointment.pet.age} </td>
+			            <c:set var="today" value="${appointment.dateTime}" />
+			            <td><fmt:formatDate type="both"  value="${today}"  pattern="d-MMMM-yyyy"/></td>
+			              <c:set var="time" value="${appointment.time}" />
+			            <td><fmt:formatDate type="both"  value="${time}"  pattern="hh:mm a"/></td>
+			            <td>${appointment.service}</td>        
+			            <td>${appointment.assigned.nombre}</td>
+			            </c:forEach>
+			          </tr>
+			         </tbody>
+      			</table>
+   			</div>
+ 		</div>
+	</div>
+	</section><!-- End Services Section -->
 </body>
 </html>

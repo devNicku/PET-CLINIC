@@ -116,17 +116,33 @@ public class MainController {
 	    public String adminPage(Principal principal, Model model) {
 	        String username = principal.getName();
 	        model.addAttribute("currentUser", userService.findByUsername(username));
-	        List<Appointment> appointments = appointmentService.allAppointments();
+	        List<Appointment> appointments = appointmentService.orderAppointments();
 	        model.addAttribute("appointments", appointments);
+	        List<Appointment> todayAppointments = appointmentService.todayAppointments();
+	        model.addAttribute("tdayAppointments", todayAppointments);
+	        List<Appointment> nextDays = appointmentService.nextDaysAppointments();
+	        model.addAttribute("nextAppointments", nextDays);
+	        
 	        return "adminPage.jsp";
 	    }
 	 
 	 @RequestMapping("/add/pet")
 	 	public String addPetPage(@Valid @ModelAttribute("petModel") Pet pet, Principal principal, Model model) {
 		 String username = principal.getName();
-	     model.addAttribute("currentUser", userService.findByUsername(username));
+		 User u = userService.findByUsername(username);
+	     model.addAttribute("currentUser", u);
 	     List<Specie> allspecies = specieService.allSpecies();
 	     model.addAttribute("species", allspecies ); 
+	     Long id = u.getId();
+	     //List before current date
+	     List <Appointment> past = appointmentService.pastAppointments(id);
+	     model.addAttribute("pastAppointment", past);
+	     //List after today
+	     List <Appointment> next = appointmentService.nextAppointments(id);
+	     model.addAttribute("nextAppointments", next);
+	     //all
+	     List <Appointment> appointments = appointmentService.appointmentsByid(id);
+	     model.addAttribute("apppointments", appointments);
 		 return "addPet.jsp"; 
 	 }
 	 @PostMapping("/add/pet")
@@ -137,8 +153,8 @@ public class MainController {
 		 petService.createPet(pet);
 		 return "redirect:/home";
 	 }
+	 
 	 @RequestMapping("/add/appointment") 
-
 	 public String appoitmentPage(Principal principal, Model model,@ModelAttribute("appointment") Appointment appointment) {
 		 String username = principal.getName();
 		 User u = userService.findByUsername(username);
@@ -155,7 +171,6 @@ public class MainController {
 
 	 @PostMapping("/add/appointment")
 	 public String createAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,BindingResult result, Principal principal){
-
 		 if(result.hasErrors()) {
 			 return "appointment.jsp";
 		 }
