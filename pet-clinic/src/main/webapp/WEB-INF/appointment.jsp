@@ -49,7 +49,18 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
 					<li><a href="#services">Services</a></li>
 					<li><a href="#departments">Departments</a></li>
 					<li><a href="#contact">Contact</a></li>
-					<li><a href="/login">SignUp/Login</a></li>
+					<li>
+					<security:authorize access="isAuthenticated()">
+	        			<li><a>Welcome: <c:out value="${currentUser.username}"></c:out></a></li>
+	        			<li>
+				            <form id="logoutForm"  method="POST" action="/logout">
+				        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				        		<input type="submit" class="btn btn-link" value="Logout!" />
+				    		</form>
+	         
+	         			</li> 
+    				</security:authorize> 
+    				</li>
 				</ul>
 			</nav>
 
@@ -66,9 +77,12 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
         <div>
 			<p><form:errors path="user.*"/></p>
 	    	<H1> Choose a Service </H1>
-	    	<button  onclick="showOrHideDiv();">Veterinarian</button>
-	    	<button onclick="showOrHideDivGrom();">Grooming</button>
+
+	    	<button class="appointment-btn scrollto" onclick="showOrHideDiv();">Veterinarian</button>
+	    	<button class="appointment-btn scrollto" onclick="showOrHideDivGrom();">Grooming</button>
+	    	
         </div><br>
+        <div >
         <form:form action="/add/appointment" method="post" modelAttribute="appointment" class="php-email-form">
           <div class="form-row">
             <div class="col-md-4 form-group">
@@ -132,8 +146,9 @@ integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolfl
           </div>
           <div ><button type="submit">Make an Appointment</button></div>
         </form:form>
+        </div>
       </div>
     </section>
-
+   
 </body>
 </html>
